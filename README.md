@@ -1,8 +1,16 @@
 # pi-themes
 
+[中文文档](README.zh-CN.md)
+
 A theme pack for [pi](https://github.com/earendil-works/pi), with file-based switching for paired light/dark theme families.
 
-This package currently includes Everforest. More theme families can be added later by following the same `<family>-light` / `<family>-dark` naming convention.
+## Installation
+
+```bash
+pi install git:github.com/smoosex/pi-themes
+```
+
+This package currently includes Everforest and Tundra. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
 
 ## Included themes
 
@@ -22,6 +30,12 @@ Soft contrast:
 
 - `everforest-soft-dark`
 - `everforest-soft-light`
+
+### Tundra
+
+Extracted from [`sam4llis/nvim-tundra`](https://github.com/sam4llis/nvim-tundra)'s arctic palette and stylesheet:
+
+- `tundra-dark`
 
 ## How switching works
 
@@ -62,7 +76,7 @@ Set a concrete theme directly:
 
 ```json
 {
-  "theme": "everforest-hard-light"
+  "theme": "tundra-dark"
 }
 ```
 
@@ -71,25 +85,28 @@ External tools can write this file however they like, for example:
 ```bash
 mkdir -p ~/.pi/agent
 printf '{"family":"everforest-soft","appearance":"dark"}\n' > ~/.pi/agent/pi-theme.json
-printf '{"theme":"everforest-hard-light"}\n' > ~/.pi/agent/pi-theme.json
+printf '{"theme":"tundra-dark"}\n' > ~/.pi/agent/pi-theme.json
 ```
 
 ## Pi command
 
-Inside pi, paired-family control is also available through:
+Inside pi, theme-family control is also available through:
 
 ```text
-/theme everforest dark
+/theme everforest        # defaults to everforest-dark
 /theme everforest light
 /theme everforest-hard dark
 /theme everforest-soft light
+/theme tundra            # defaults to tundra-dark
 ```
 
-The command works with any family that provides both `<family>-light` and `<family>-dark`. For example, if a future `tokyonight-light` / `tokyonight-dark` pair is added, it can be selected with:
+The command format is:
 
 ```text
-/theme tokyonight dark
+/theme <family> [dark|light]
 ```
+
+If `dark` or `light` is omitted, `dark` is used. The command only requires the target concrete theme to exist, so dark-only families like `tundra-dark` are supported.
 
 ## Environment
 
@@ -100,22 +117,3 @@ PI_THEME_CONTROL_FILE=~/.pi/agent/pi-theme.json
 
 `PI_THEME` sets the default family used when the `/theme` command omits a family-specific context. File-based switching itself is driven by the control file.
 
-## Usage
-
-Test locally:
-
-```bash
-pi -e ./pi-themes
-```
-
-Install globally:
-
-```bash
-pi install /absolute/path/to/pi-themes
-```
-
-Install for a project:
-
-```bash
-pi install ./pi-themes -l
-```

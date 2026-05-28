@@ -100,7 +100,7 @@ export default function (pi: ExtensionAPI) {
 	});
 
 	pi.registerCommand("theme", {
-		description: "Set auto-switching theme family, e.g. everforest",
+		description: "Set theme family, e.g. everforest [dark|light]",
 		handler: async (args, ctx) => {
 			const parts = args.trim().split(/\s+/).filter(Boolean);
 			if (parts.length === 0) {
@@ -109,27 +109,14 @@ export default function (pi: ExtensionAPI) {
 			}
 
 			const family = parts[0];
-			const appearance = parseAppearance(parts[1]);
-
-			const lightName = pairedThemeName(family, "light");
-			const darkName = pairedThemeName(family, "dark");
-			if (!ctx.ui.getTheme(lightName) || !ctx.ui.getTheme(darkName)) {
-				ctx.ui.notify(
-					`Theme family \"${family}\" needs both ${lightName} and ${darkName}`,
-					"error",
-				);
-				return;
-			}
+			const appearance = parseAppearance(parts[1]) || "dark";
+			const themeName = pairedThemeName(family, appearance);
 
 			currentFamily = family;
-			await writeControlFile(appearance ? { family, appearance } : { family });
+			await writeControlFile({ family, appearance });
 
-			if (appearance) {
-				await setTheme(ctx, pairedThemeName(family, appearance));
-				ctx.ui.notify(`Theme set to: ${pairedThemeName(family, appearance)}`, "info");
-			} else {
-				ctx.ui.notify(`Theme family set to: ${currentFamily}`, "info");
-			}
+			const ok = await setTheme(ctx, themeName);
+			if (ok) ctx.ui.notify(`Theme set to: ${themeName}`, "info");
 		},
 	});
 
