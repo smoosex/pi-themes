@@ -1,7 +1,7 @@
 {
   "name": "pi-themes",
   "version": "0.1.0",
-  "description": "Everforest themes for pi with automatic light/dark switching.",
+  "description": "Theme pack for pi with file-based theme switching.",
   "type": "module",
   "files": [
     "extensions",
@@ -11,8 +11,9 @@
   ],
   "keywords": [
     "pi-package",
-    "pi-theme",
+    "themes",
     "pi-extension",
+    "theme-pack",
     "everforest"
   ],
   "author": "mavam",

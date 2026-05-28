@@ -1,90 +1,115 @@
-import { exec } from "node:child_process";
-import { promisify } from "node:util";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { watch, type FSWatcher } from "node:fs";
+import { dirname, join, basename } from "node:path";
+import { homedir } from "node:os";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
-const execAsync = promisify(exec);
-
 const DEFAULT_FAMILY = process.env.PI_THEME || "everforest";
-const POLL_INTERVAL_MS = Number(process.env.PI_THEME_POLL_INTERVAL_MS || "2000");
+const CONTROL_FILE =
+	process.env.PI_THEME_CONTROL_FILE || join(homedir(), ".pi", "agent", "pi-theme.json");
 
 type Appearance = "dark" | "light";
-
-async function getSystemAppearance(): Promise<Appearance> {
-	const override = process.env.PI_THEME_APPEARANCE?.toLowerCase();
-	if (override === "dark" || override === "light") return override;
-
-	if (process.platform === "darwin") {
-		try {
-			const { stdout } = await execAsync(
-				"osascript -e 'tell application \"System Events\" to tell appearance preferences to return dark mode'",
-			);
-			return stdout.trim() === "true" ? "dark" : "light";
-		} catch {
-			return "dark";
-		}
-	}
-
-	if (process.platform === "linux") {
-		try {
-			const { stdout } = await execAsync(
-				"gsettings get org.gnome.desktop.interface color-scheme 2>/dev/null || true",
-			);
-			return stdout.toLowerCase().includes("dark") ? "dark" : "light";
-		} catch {
-			return "dark";
-		}
-	}
-
-	return "dark";
-}
+type ThemeControl = {
+	family?: string;
+	appearance?: Appearance;
+	theme?: string;
+};
 
 function pairedThemeName(family: string, appearance: Appearance): string {
 	return `${family}-${appearance}`;
 }
 
-async function applyTheme(ctx: ExtensionContext, family: string, previous: Appearance | null) {
-	const appearance = await getSystemAppearance();
-	if (appearance === previous) return previous;
+function parseAppearance(value: string | undefined): Appearance | undefined {
+	const normalized = value?.toLowerCase();
+	if (normalized === "dark" || normalized === "light") return normalized;
+	return undefined;
+}
 
-	const themeName = pairedThemeName(family, appearance);
+async function readControlFile(): Promise<ThemeControl | null> {
+	try {
+		const raw = await readFile(CONTROL_FILE, "utf8");
+		const parsed = JSON.parse(raw) as ThemeControl;
+		return parsed && typeof parsed === "object" ? parsed : null;
+	} catch {
+		return null;
+	}
+}
+
+async function writeControlFile(control: ThemeControl) {
+	await mkdir(dirname(CONTROL_FILE), { recursive: true });
+	await writeFile(CONTROL_FILE, JSON.stringify(control, null, 2) + "\n", "utf8");
+}
+
+async function setTheme(ctx: ExtensionContext, themeName: string): Promise<boolean> {
 	if (!ctx.ui.getTheme(themeName)) {
 		ctx.ui.notify(`pi-themes: theme not found: ${themeName}`, "warning");
-		return previous;
+		return false;
 	}
 
 	const result = ctx.ui.setTheme(themeName);
 	if (!result.success) {
 		ctx.ui.notify(`pi-themes: failed to switch theme: ${result.error}`, "error");
-		return previous;
+		return false;
 	}
 
 	ctx.ui.setStatus("pi-themes", ctx.ui.theme.fg("accent", `theme:${themeName}`));
-	return appearance;
+	return true;
+}
+
+async function applyControl(ctx: ExtensionContext, currentFamily: string): Promise<string> {
+	const control = await readControlFile();
+	if (!control) return currentFamily;
+
+	if (typeof control.theme === "string" && control.theme.trim()) {
+		await setTheme(ctx, control.theme.trim());
+		return currentFamily;
+	}
+
+	const family = typeof control.family === "string" && control.family.trim()
+		? control.family.trim()
+		: currentFamily;
+	const appearance = parseAppearance(control.appearance);
+
+	if (appearance) {
+		await setTheme(ctx, pairedThemeName(family, appearance));
+	}
+
+	return family;
 }
 
 export default function (pi: ExtensionAPI) {
-	let intervalId: ReturnType<typeof setInterval> | null = null;
-	let currentAppearance: Appearance | null = null;
+	let controlWatcher: FSWatcher | null = null;
+	let controlDebounce: ReturnType<typeof setTimeout> | null = null;
 	let currentFamily = DEFAULT_FAMILY;
 
 	pi.on("session_start", async (_event, ctx) => {
-		currentAppearance = await applyTheme(ctx, currentFamily, currentAppearance);
+		await mkdir(dirname(CONTROL_FILE), { recursive: true });
+		currentFamily = await applyControl(ctx, currentFamily);
 
-		intervalId = setInterval(() => {
-			void applyTheme(ctx, currentFamily, currentAppearance).then((appearance) => {
-				currentAppearance = appearance;
-			});
-		}, POLL_INTERVAL_MS);
+		controlWatcher = watch(dirname(CONTROL_FILE), (eventType, filename) => {
+			if (!filename || filename.toString() !== basename(CONTROL_FILE)) return;
+			if (eventType !== "change" && eventType !== "rename") return;
+
+			if (controlDebounce) clearTimeout(controlDebounce);
+			controlDebounce = setTimeout(() => {
+				void applyControl(ctx, currentFamily).then((family) => {
+					currentFamily = family;
+				});
+			}, 50);
+		});
 	});
 
 	pi.registerCommand("theme", {
 		description: "Set auto-switching theme family, e.g. everforest",
 		handler: async (args, ctx) => {
-			const family = args.trim();
-			if (!family) {
+			const parts = args.trim().split(/\s+/).filter(Boolean);
+			if (parts.length === 0) {
 				ctx.ui.notify(`Current theme family: ${currentFamily}`, "info");
 				return;
 			}
+
+			const family = parts[0];
+			const appearance = parseAppearance(parts[1]);
 
 			const lightName = pairedThemeName(family, "light");
 			const darkName = pairedThemeName(family, "dark");
@@ -97,16 +122,25 @@ export default function (pi: ExtensionAPI) {
 			}
 
 			currentFamily = family;
-			currentAppearance = null;
-			currentAppearance = await applyTheme(ctx, currentFamily, currentAppearance);
-			ctx.ui.notify(`Theme family set to: ${currentFamily}`, "info");
+			await writeControlFile(appearance ? { family, appearance } : { family });
+
+			if (appearance) {
+				await setTheme(ctx, pairedThemeName(family, appearance));
+				ctx.ui.notify(`Theme set to: ${pairedThemeName(family, appearance)}`, "info");
+			} else {
+				ctx.ui.notify(`Theme family set to: ${currentFamily}`, "info");
+			}
 		},
 	});
 
 	pi.on("session_shutdown", () => {
-		if (intervalId) {
-			clearInterval(intervalId);
-			intervalId = null;
+		if (controlDebounce) {
+			clearTimeout(controlDebounce);
+			controlDebounce = null;
+		}
+		if (controlWatcher) {
+			controlWatcher.close();
+			controlWatcher = null;
 		}
 	});
 }
