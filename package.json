@@ -1,0 +1,34 @@
+{
+  "name": "pi-themes",
+  "version": "0.1.0",
+  "description": "Everforest themes for pi with automatic light/dark switching.",
+  "type": "module",
+  "files": [
+    "extensions",
+    "themes",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "pi-package",
+    "pi-theme",
+    "pi-extension",
+    "everforest"
+  ],
+  "author": "mavam",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ],
+    "themes": [
+      "./themes"
+    ]
+  }
+}
