@@ -10,7 +10,7 @@ A theme pack for [pi](https://github.com/earendil-works/pi), with file-based swi
 pi install git:github.com/smoosex/pi-themes
 ```
 
-This package currently includes Everforest and Tundra. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
+This package currently includes Everforest, Tundra, and Rosé Pine. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
 
 ## Included themes
 
@@ -36,6 +36,14 @@ Soft contrast:
 Extracted from [`sam4llis/nvim-tundra`](https://github.com/sam4llis/nvim-tundra)'s arctic palette and stylesheet:
 
 - `tundra-dark`
+
+### Rosé Pine
+
+Extracted from the official [Rosé Pine palette](https://rosepinetheme.com/palette/ingredients/):
+
+- `rosepine-dark`
+- `rosepine-light`
+- `rosepine-moon-dark`
 
 ## How switching works
 
