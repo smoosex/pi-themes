@@ -27,6 +27,8 @@ Soft contrast:
 
 The running pi extension watches a small control file. When the file changes, the extension reads it and calls `ctx.ui.setTheme(...)` inside pi.
 
+The extension also sets a footer/status key named `pi-themes`, which can be consumed or styled together with other footer plugins.
+
 Default control file:
 
 ```text
