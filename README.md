@@ -1,6 +1,6 @@
 # pi-themes
 
-[中文文档](README.zh-CN.md)
+[English](README.md) | [简体中文](README.zh-CN.md)
 
 A theme pack for [pi](https://github.com/earendil-works/pi), with file-based switching for paired light/dark theme families.
 

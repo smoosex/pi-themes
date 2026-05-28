@@ -1,5 +1,7 @@
 # pi-themes
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 一个用于 [pi](https://github.com/earendil-works/pi) 的主题包，支持通过文件监听的方式切换主题。
 
 ## 安装
