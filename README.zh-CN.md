@@ -10,7 +10,7 @@
 pi install git:github.com/smoosex/pi-themes
 ```
 
-当前包含 Everforest、Tundra 和 Rosé Pine。成对的明暗主题建议使用 `<family>-light` / `<family>-dark` 命名；只有单一风格的主题也可以通过具体主题名直接切换。
+当前包含 Everforest、Tundra、Rosé Pine 和 OneDark。成对的明暗主题建议使用 `<family>-light` / `<family>-dark` 命名；只有单一风格的主题也可以通过具体主题名直接切换。
 
 ## 已包含主题
 
@@ -46,6 +46,13 @@ Tundra 目前只有暗色主题。
 - `rosepine-dark`
 - `rosepine-light`
 - `rosepine-moon-dark`
+
+### OneDark
+
+从 [`navarasu/onedark.nvim`](https://github.com/navarasu/onedark.nvim) 的 palette styles 提取：
+
+- `onedark-dark`
+- `onedark-light`
 
 ## 切换机制
 

@@ -10,7 +10,7 @@ A theme pack for [pi](https://github.com/earendil-works/pi), with file-based swi
 pi install git:github.com/smoosex/pi-themes
 ```
 
-This package currently includes Everforest, Tundra, and Rosé Pine. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
+This package currently includes Everforest, Tundra, Rosé Pine, and OneDark. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
 
 ## Included themes
 
@@ -44,6 +44,13 @@ Extracted from the official [Rosé Pine palette](https://rosepinetheme.com/palet
 - `rosepine-dark`
 - `rosepine-light`
 - `rosepine-moon-dark`
+
+### OneDark
+
+Extracted from [`navarasu/onedark.nvim`](https://github.com/navarasu/onedark.nvim)'s palette styles:
+
+- `onedark-dark`
+- `onedark-light`
 
 ## How switching works
 
