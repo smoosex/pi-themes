@@ -10,7 +10,7 @@
 pi install git:github.com/smoosex/pi-themes
 ```
 
-当前包含 Everforest、Tundra、Rosé Pine、OneDark 和 Gruvbox。成对的明暗主题建议使用 `<family>-light` / `<family>-dark` 命名；只有单一风格的主题也可以通过具体主题名直接切换。
+当前包含 Everforest、Tundra、Rosé Pine、OneDark、Gruvbox 和 Bearded Arc。成对的明暗主题建议使用 `<family>-light` / `<family>-dark` 命名；只有单一风格的主题也可以通过具体主题名直接切换。
 
 ## 已包含主题
 
@@ -47,6 +47,12 @@ Tundra 目前只有暗色主题。
 
 - `gruvbox-dark`
 - `gruvbox-light`
+
+### Bearded Arc
+
+从 [`BeardedBear/bearded-theme`](https://github.com/BeardedBear/bearded-theme) 的 Arc variation 提取：
+
+- `bearded-arc-dark`
 
 ## 切换机制
 

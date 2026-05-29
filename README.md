@@ -10,7 +10,7 @@ A theme pack for [pi](https://github.com/earendil-works/pi), with file-based swi
 pi install git:github.com/smoosex/pi-themes
 ```
 
-This package currently includes Everforest, Tundra, Rosé Pine, OneDark, and Gruvbox. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
+This package currently includes Everforest, Tundra, Rosé Pine, OneDark, Gruvbox, and Bearded Arc. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
 
 ## Included themes
 
@@ -45,6 +45,12 @@ Extracted from [`morhetz/gruvbox`](https://github.com/morhetz/gruvbox)'s medium-
 
 - `gruvbox-dark`
 - `gruvbox-light`
+
+### Bearded Arc
+
+Extracted from [`BeardedBear/bearded-theme`](https://github.com/BeardedBear/bearded-theme)'s Arc variation:
+
+- `bearded-arc-dark`
 
 ## How switching works
 
