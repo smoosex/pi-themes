@@ -10,7 +10,7 @@ A theme pack for [pi](https://github.com/earendil-works/pi), with file-based swi
 pi install git:github.com/smoosex/pi-themes
 ```
 
-This package currently includes Everforest, Tundra, Rosé Pine, and OneDark. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
+This package currently includes Everforest, Tundra, Rosé Pine, OneDark, and Gruvbox. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
 
 ## Included themes
 
@@ -38,6 +38,13 @@ Extracted from [`navarasu/onedark.nvim`](https://github.com/navarasu/onedark.nvi
 
 - `onedark-dark`
 - `onedark-light`
+
+### Gruvbox
+
+Extracted from [`morhetz/gruvbox`](https://github.com/morhetz/gruvbox)'s medium-contrast palette:
+
+- `gruvbox-dark`
+- `gruvbox-light`
 
 ## How switching works
 
