@@ -1,6 +1,6 @@
 # pi-themes
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+English | [简体中文](README.zh-CN.md)
 
 A theme pack for [pi](https://github.com/earendil-works/pi), with file-based switching for paired light/dark theme families.
 
@@ -16,20 +16,8 @@ This package currently includes Everforest, Tundra, Rosé Pine, and OneDark. Pai
 
 ### Everforest
 
-Medium contrast, default family:
-
 - `everforest-dark`
 - `everforest-light`
-
-Hard contrast:
-
-- `everforest-hard-dark`
-- `everforest-hard-light`
-
-Soft contrast:
-
-- `everforest-soft-dark`
-- `everforest-soft-light`
 
 ### Tundra
 
@@ -43,7 +31,6 @@ Extracted from the official [Rosé Pine palette](https://rosepinetheme.com/palet
 
 - `rosepine-dark`
 - `rosepine-light`
-- `rosepine-moon-dark`
 
 ### OneDark
 
@@ -110,8 +97,7 @@ Inside pi, theme-family control is also available through:
 ```text
 /theme everforest        # defaults to everforest-dark
 /theme everforest light
-/theme everforest-hard dark
-/theme everforest-soft light
+/theme rosepine light
 /theme tundra            # defaults to tundra-dark
 ```
 
@@ -131,4 +117,3 @@ PI_THEME_CONTROL_FILE=~/.pi/agent/pi-theme.json
 ```
 
 `PI_THEME` sets the default family used when the `/theme` command omits a family-specific context. File-based switching itself is driven by the control file.
-

@@ -1,6 +1,6 @@
 # pi-themes
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[English](README.md) | 简体中文
 
 一个用于 [pi](https://github.com/earendil-works/pi) 的主题包，支持通过文件监听的方式切换主题。
 
@@ -16,20 +16,8 @@ pi install git:github.com/smoosex/pi-themes
 
 ### Everforest
 
-中等对比度，默认 family：
-
 - `everforest-dark`
 - `everforest-light`
-
-高对比度：
-
-- `everforest-hard-dark`
-- `everforest-hard-light`
-
-低对比度：
-
-- `everforest-soft-dark`
-- `everforest-soft-light`
 
 ### Tundra
 
@@ -45,7 +33,6 @@ Tundra 目前只有暗色主题。
 
 - `rosepine-dark`
 - `rosepine-light`
-- `rosepine-moon-dark`
 
 ### OneDark
 
@@ -112,8 +99,7 @@ printf '{"theme":"tundra-dark"}\n' > ~/.pi/agent/pi-theme.json
 ```text
 /theme everforest        # 默认切到 everforest-dark
 /theme everforest light
-/theme everforest-hard dark
-/theme everforest-soft light
+/theme rosepine light
 /theme tundra            # 默认切到 tundra-dark
 ```
 
