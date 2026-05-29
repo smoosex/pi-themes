@@ -1,13 +1,11 @@
 # pi-themes
 
-English | [简体中文](README.zh-CN.md)
-
 A theme pack for [pi](https://github.com/earendil-works/pi), with file-based switching for paired light/dark theme families.
 
 ## Installation
 
 ```bash
-pi install git:github.com/smoosex/pi-themes
+pi install npm:@smoose/pi-themes
 ```
 
 This package currently includes Everforest, Tundra, Rosé Pine, OneDark, Gruvbox, and Bearded Arc. Paired theme families can follow the `<family>-light` / `<family>-dark` naming convention; standalone themes can be selected by concrete theme name in the control file.
@@ -99,7 +97,7 @@ External tools can write this file however they like, for example:
 
 ```bash
 mkdir -p ~/.pi/agent
-printf '{"family":"everforest-soft","appearance":"dark"}\n' > ~/.pi/agent/pi-theme.json
+printf '{"family":"everforest","appearance":"dark"}\n' > ~/.pi/agent/pi-theme.json
 printf '{"theme":"tundra-dark"}\n' > ~/.pi/agent/pi-theme.json
 ```
 
