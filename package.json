@@ -1,6 +1,6 @@
 {
   "name": "@smoose/pi-themes",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Theme pack for pi with file-based theme switching.",
   "type": "module",
   "files": [
