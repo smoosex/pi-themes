@@ -41,6 +41,8 @@ async function writeControlFile(control: ThemeControl) {
 }
 
 async function setTheme(ctx: ExtensionContext, themeName: string): Promise<boolean> {
+	if (ctx.mode !== "tui") return false;
+
 	if (!ctx.ui.getTheme(themeName)) {
 		ctx.ui.notify(`pi-themes: theme not found: ${themeName}`, "warning");
 		return false;
